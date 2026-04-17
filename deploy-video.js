@@ -260,7 +260,6 @@ output = "video/video/${info.language}/${info.quarterly}/${videoItem.id}/${video
 -C -
 --create-dirs
 --globoff
---insecure
 -L
 `)
                         }
@@ -271,7 +270,6 @@ output = "video/video/${info.language}/${info.quarterly}/${videoItem.id}/thumb/$
 -C -
 --create-dirs
 --globoff
---insecure
 -L
 `)
                         }
