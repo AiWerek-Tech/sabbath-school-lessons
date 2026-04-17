@@ -287,16 +287,32 @@ let API_HOST = "https://sabbath-school.adventech.io/api/",
 
 let renderer = new metaMarked.noMeta.Renderer();
 
+// HTML-escape untrusted values before inlining them into attributes / text
+// nodes. Markdown authors (even trusted ones) can otherwise break out of
+// attribute quoting and inject arbitrary HTML into the generated static
+// content that is served by the public API and rendered in mobile/web views.
+let escapeHtml = function (value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+};
+
 renderer.codespan = function (text) {
-  return '<code>' + ent.decode(text) + '</code>';
+  // `text` is already entity-encoded by marked. Previously this ran
+  // ent.decode(text), which undid that escaping and re-enabled HTML/JS
+  // injection via markdown code spans — keep the encoded form.
+  return '<code>' + text + '</code>';
 };
 
 renderer.image = function (href, title, text) {
   let url = href
-  if (!/^https/.test(href)) {
+  if (!/^https?:/i.test(href)) {
     url = `${renderer.options.baseUrl}${href}`
   }
-  return `<img style="max-width:100%" alt="${text || ''}" src="${url}" />`
+  return `<img style="max-width:100%" alt="${escapeHtml(text)}" src="${escapeHtml(url)}" />`
 }
 
 let slug = function (input) {

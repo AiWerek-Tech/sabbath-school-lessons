@@ -18,7 +18,9 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v39
+        # Pinned to v46.0.5 by commit SHA to mitigate CVE-2025-30066
+        # (supply-chain compromise of tj-actions/changed-files <= v45.0.7).
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
@@ -26,7 +28,8 @@ jobs:
           done
       - name: Get changed files and write the outputs to a JSON file
         id: changed-files-write-output-files-json
-        uses: tj-actions/changed-files@v39
+        # Pinned to v46.0.5 by commit SHA to mitigate CVE-2025-30066.
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
           json: true
           write_output_files: true
@@ -80,7 +83,8 @@ jobs:
           fetch-depth: 0
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v39
+        # Pinned to v46.0.5 by commit SHA to mitigate CVE-2025-30066.
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
       - name: List all changed files
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
@@ -88,7 +92,8 @@ jobs:
           done
       - name: Get changed files and write the outputs to a JSON file
         id: changed-files-write-output-files-json
-        uses: tj-actions/changed-files@v39
+        # Pinned to v46.0.5 by commit SHA to mitigate CVE-2025-30066.
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
         with:
           json: true
           write_output_files: true
